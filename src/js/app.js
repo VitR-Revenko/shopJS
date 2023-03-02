@@ -1,8 +1,5 @@
 window.addEventListener("load", function () {
   showCategories();
-
-  // 2. add event listeners for categories
-  // 3
 });
 
 function showCategories() {
@@ -13,7 +10,6 @@ function showCategories() {
     const element = document.createElement("div");
     element.textContent = value.name;
     element.setAttribute("data-category-id", value.id);
-    // element.addEventListener('click', function(event) {})
     parent.appendChild(element);
   }
 }
@@ -50,9 +46,9 @@ function showProducts(products) {
   }
 }
 
-function showSuccess() {
-  const success = document.getElementById("success");
-  success.classList.add("show");
+function showForm() {
+  const form = document.getElementById("formWrap");
+  form.classList.add("show");
 }
 
 function showInfo() {
@@ -61,13 +57,14 @@ function showInfo() {
 
   parent.addEventListener("click", function handleProductClick(event) {
     info.innerHTML = "";
-    const i = parseInt(event.target.getAttribute("data-product-id"));
-   
-    if (!i) {
+    const currentProductId = parseInt(event.target.getAttribute("data-product-id"));
+
+    if (!currentProductId) {
       return;
     }
 
-    const currentItem = data[id - 1].products[i - 1];
+    const currentItem = data[id - 1].products[currentProductId - 1];
+    personalData.push(`Ваш товар: ${currentItem.info}`);
     const element = document.createElement("div");
     const button = document.createElement("button");
 
@@ -78,13 +75,90 @@ function showInfo() {
     info.appendChild(element);
     info.appendChild(button);
 
-    button.addEventListener("click", () => {
-      showSuccess();
-      setTimeout(function () {
-        window.location.reload();
-      }, 1500);
-    });
+    button.addEventListener("click", showForm);
   });
 }
 
 showInfo();
+
+let personalData = [];
+
+function showError() {
+  const errorBlock = document.getElementById("error");
+  errorBlock.classList.add("show");
+  const returnButton = document.getElementById("return");
+  returnButton.addEventListener("click", () => {
+    errorBlock.classList.remove("show");
+    personalData.splice(0, personalData.length);
+  });
+}
+
+function showSuccessBlock() {
+  personalData.splice(0, personalData.length);
+  const dataContainer = document.getElementById("personalData");
+  dataContainer.innerHTML = "";
+  dataContainer.classList.remove("show");
+  const successBlock = document.getElementById("success");
+  successBlock.classList.add("show");
+}
+
+function showPersonalData() {
+  const formWrap = document.getElementById("formWrap");
+  formWrap.classList.remove("show");
+  const dataContainer = document.getElementById("personalData");
+  dataContainer.classList.add("show");
+  personalData.forEach((el) => {
+    const elem = document.createElement("p");
+    elem.textContent = el;
+    dataContainer.appendChild(elem);
+  });
+  const button = document.createElement("button");
+  button.textContent = `Підтвердити замовлення`;
+  button.classList.add("button");
+  dataContainer.appendChild(button);
+  button.addEventListener("click", showSuccessBlock);
+}
+
+document.querySelector("#confirm").addEventListener("click", function () {
+  const infoForm = document.infoForm;
+  const firstName = infoForm.firstName.value;
+  const lastName = infoForm.lastName.value;
+  personalData.push(`ПІБ: ${firstName} ${lastName}`);
+
+  const city = infoForm.city;
+  personalData.push(`Місто доставки: ${city.options[city.selectedIndex].textContent}`);
+
+  const post = infoForm.post;
+  personalData.push(`Відділення НП: ${post.options[post.selectedIndex].textContent}`);
+
+  const paymentMethod = infoForm.wayToPay.value;
+  personalData.push(`Спосіб оплати: ${paymentObj[paymentMethod]}`);
+
+  const numberOfItems = infoForm.howMany.value;
+  personalData.push(`Кількість товару, шт.: ${numberOfItems}`);
+
+  const yourComment = infoForm.comment.value;
+  personalData.push(`${yourComment}`);
+
+  if (!firstName || !lastName || city.selectedIndex === 0 || post.selectedIndex === 0 || !paymentMethod) {
+    showError();
+  } else {
+    showPersonalData();
+  }
+});
+
+function refreshPage() {
+  const successBlock = document.getElementById("success");
+  successBlock.classList.remove("show");
+  const products = document.getElementById("products");
+  products.innerHTML = "";
+  const info = document.getElementById("info");
+  info.innerHTML = "";
+}
+
+function returnToCategories() {
+  const continueButton = document.getElementById("continue");
+  continueButton.addEventListener("click", refreshPage);
+}
+
+returnToCategories();

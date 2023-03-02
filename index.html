@@ -1,25 +1,97 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-  <meta charset="UTF-8">
-  <meta http-equiv="X-UA-Compatible" content="IE=edge">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <link type="text/css" rel="stylesheet" href="./src/css/styles.css" />
-  <title>Document</title>
-</head>
-<body>
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link type="text/css" rel="stylesheet" href="./src/css/styles.css" />
+    <title>Document</title>
+  </head>
+  <body>
+    <div id="main">
+      <div id="categories"></div>
+      <div id="products"></div>
+      <div id="info"></div>
+    </div>
 
- <div id="main">
-  <div id="categories"></div>
-  <div id="products"></div>
-  <div id="info"></div>
- </div>
+    <div id="formWrap" hidden>
+      <form class="form" name="infoForm">
+        <p>
+          Ім'я
+          <br />
+          <input type="text" name="firstName" />
+        </p>
+        <p>
+          Прізвище
+          <br />
+          <input type="text" name="lastName" />
+        </p>
 
- <div id="success" hidden>Congra</div>
- 
- 
+        <select name="city">
+          <option value="0">--Обрати місто--</option>
+          <option value="aa">Київ</option>
+          <option value="vs">Львів</option>
+          <option value="vn">Одеса</option>
+          <option value="sa">Черкаси</option>
+          <option value="ae">Дніпро</option>
+        </select>
 
-  <script src="./src/js/data.js"></script>
-  <script src="./src/js/app.js"></script>
-</body>
+        <select name="post">
+          <option value="0">--Відділення НП--</option>
+          <option value="aa">№1</option>
+          <option value="vs">№2</option>
+          <option value="vn">№3</option>
+          <option value="sa">№4</option>
+          <option value="ae">№5</option>
+        </select>
+
+        <div class="wayToPay">
+          Спосіб оплати
+          <div>
+            <input type="radio" id="way1" name="wayToPay" value="1" />
+            <label for="way1">Післяоплата</label>
+          </div>
+          <div>
+            <input type="radio" id="way2" name="wayToPay" value="2" />
+            <label for="way2">Mastercard/Visa</label>
+          </div>
+          <div>
+            <input type="radio" id="way3" name="wayToPay" value="3" /> 
+            <label for="way3">Google Pay</label>
+          </div>
+          <div>
+            <input type="radio" id="way4" name="wayToPay" value="4" />
+            <label for="way4">Apple Pay</label>
+          </div>
+        </div>
+
+        <p>
+          Кількість, шт.
+          <br />
+          <input type="number" name="howMany" min="1" value="1"/>
+        </p>
+
+        <div>
+          <p>Коментар до замовлення</p>
+          <textarea name="comment" cols="20" rows="5"></textarea>
+        </div>
+
+        <input class="button" type="button" id="confirm" value="Підтвердити замовлення" />
+      </form>
+    </div>
+
+    <div id="personalData" hidden></div>
+
+    <div id="error" hidden>
+      <p>Поля заповнені некоректно!</p>
+      <input class="button" type="button" id="return" value="Повернутися до форми" />
+    </div>
+
+    <div id="success" hidden>
+      <p>Дякуємо за покупку!</p>
+      <input class="button" type="button" id="continue" value="Продовжити покупки" />
+    </div>
+    <script src="./src/js/data.js"></script>
+    <script src="./src/js/app.js"></script>
+  </body>
 </html>

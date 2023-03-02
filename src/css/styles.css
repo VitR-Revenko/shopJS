@@ -5,19 +5,85 @@
 
 #main > div {
   border: 1px solid black;
+  border-radius: 10px;
+  background-color: lightskyblue;
+  padding: 5px;
   flex-basis: 30%;
-  min-height: 200px;
+  min-height: 100px;
+}
+
+div > div > div {
+  font-size: 20px;
+}
+
+div > div > div:hover {
+  color: yellow;
+  cursor: pointer;
+  font-weight: bolder;
+}
+
+.button {
+  border-radius: 5px;
+  border: 0;
+}
+
+.button:hover {
+  cursor: pointer;
+  background-color: yellow;
+}
+
+#formWrap {
+  background-color: lightgray;
+  border-radius: 5px;
+  padding: 20px;
+  flex-direction: column;
+}
+
+.form {
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+}
+
+p {
+  margin: 0;
+}
+
+.wayToPay {
+  display: flex;
+  flex-direction: column;
+}
+
+#personalData {
+  background-color: lightgray;
+  border-radius: 5px;
+  padding: 20px;
+  flex-direction: column;
+}
+
+#error {
+  padding: 20px;
+  border-radius: 10px;
+  flex-direction: column;
+  align-items: center;
+  gap: 10px;
+  background-color: rgb(237, 0, 47);
 }
 
 #success {
-  background-color: rgb(0, 255, 0);
   padding: 20px;
+  border-radius: 10px;
+  flex-direction: column;
+  align-items: center;
+  gap: 10px;
+  background-color: rgb(58, 244, 58);
 }
 
 .show {
-  display: block;
+  display: flex;
   position: absolute;
   top: 50%;
   left: 50%;
   transform: translate(-50%, -50%);
 }
+
