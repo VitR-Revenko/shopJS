@@ -8,7 +8,18 @@
     <title>Document</title>
   </head>
   <body>
-    <div id="main">
+    <div class="menu">
+      <input class="button navButtons" id="homeButton" type="button" value="Головна" />
+      <input class="button navButtons" id="myOrdersButton" type="button" value="Мої замовлення" />
+    </div>
+
+    <div id="myOrders" hidden>
+      <input class="button backButton" id="backButton" type="button" value="Назад" />
+      <div class="orders" id="orders"></div>
+      <div class="order" id="order"></div>
+    </div>
+
+    <div id="main" class="main">
       <div id="categories"></div>
       <div id="products"></div>
       <div id="info"></div>
@@ -56,7 +67,7 @@
             <label for="way2">Mastercard/Visa</label>
           </div>
           <div>
-            <input type="radio" id="way3" name="wayToPay" value="3" /> 
+            <input type="radio" id="way3" name="wayToPay" value="3" />
             <label for="way3">Google Pay</label>
           </div>
           <div>
@@ -68,7 +79,7 @@
         <p>
           Кількість, шт.
           <br />
-          <input type="number" name="howMany" min="1" value="1"/>
+          <input type="number" name="howMany" min="1" value="1" />
         </p>
 
         <div>

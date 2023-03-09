@@ -1,3 +1,7 @@
+let personalData = [];
+
+let orders = JSON.parse(localStorage.getItem("orders")) || [];
+
 window.addEventListener("load", function () {
   showCategories();
 });
@@ -81,8 +85,6 @@ function showInfo() {
 
 showInfo();
 
-let personalData = [];
-
 function showError() {
   const errorBlock = document.getElementById("error");
   errorBlock.classList.add("show");
@@ -140,11 +142,21 @@ document.querySelector("#confirm").addEventListener("click", function () {
   const yourComment = infoForm.comment.value;
   personalData.push(`${yourComment}`);
 
+  const date = new Date().toLocaleDateString("en-US", {
+    year: "numeric",
+    month: "2-digit",
+    day: "2-digit",
+  });
+  personalData.push(`${date}`);
+
   if (!firstName || !lastName || city.selectedIndex === 0 || post.selectedIndex === 0 || !paymentMethod) {
     showError();
   } else {
     showPersonalData();
   }
+  const order = JSON.stringify(personalData);
+  orders.push(order);
+  localStorage.setItem("orders", JSON.stringify(orders));
 });
 
 function refreshPage() {
@@ -159,6 +171,86 @@ function refreshPage() {
 function returnToCategories() {
   const continueButton = document.getElementById("continue");
   continueButton.addEventListener("click", refreshPage);
+  const backButton = document.getElementById("backButton");
+  backButton.addEventListener("click", () => {
+    if (document.getElementById("main").classList.contains("hide")) {
+      document.getElementById("myOrders").classList.remove("show");
+      document.getElementById("main").classList.remove("hide");
+      document.getElementById("orders").innerHTML = "";
+      document.getElementById("order").innerHTML = "";
+      refreshPage();
+    } else {
+      document.getElementById("myOrders").classList.remove("show");
+      document.getElementById("orders").innerHTML = "";
+      document.getElementById("order").innerHTML = "";
+      refreshPage();
+    }
+  });
+  const homeButton = document.getElementById("homeButton");
+  homeButton.addEventListener("click", () => {
+    if (document.getElementById("main").classList.contains("hide")) {
+      document.getElementById("myOrders").classList.remove("show");
+      document.getElementById("main").classList.remove("hide");
+      document.getElementById("orders").innerHTML = "";
+      document.getElementById("order").innerHTML = "";
+      refreshPage();
+    } else {
+      document.getElementById("myOrders").classList.remove("show");
+      document.getElementById("orders").innerHTML = "";
+      document.getElementById("order").innerHTML = "";
+      refreshPage();
+    }
+  });
 }
 
 returnToCategories();
+
+function showMyOrders() {
+  const myOrdersButton = document.getElementById("myOrdersButton");
+  myOrdersButton.addEventListener("click", () => {
+    document.getElementById("orders").innerHTML = "";
+    document.getElementById("order").innerHTML = "";
+    document.getElementById("main").classList.add("hide");
+    const globalOrdersBlock = document.getElementById("myOrders");
+    globalOrdersBlock.classList.add("show");
+    const ordersBlock = document.getElementById("orders");
+    orders.forEach(function (order, i) {
+      const orderArr = order.split('"');
+      const el = document.createElement("p");
+      el.textContent = `${orderArr[1]}, ${orderArr[15]}`;
+      ordersBlock.appendChild(el);
+
+      el.addEventListener("click", (e) => {
+        const concreteOrderBlock = document.getElementById("order");
+        concreteOrderBlock.innerHTML = "";
+        const el = document.createElement("p");
+        el.textContent = `${orderArr[1]}, 
+                          ${orderArr[3]}, 
+                          ${orderArr[5]}, 
+                          ${orderArr[7]}, 
+                          ${orderArr[9]}, 
+                          ${orderArr[11]}, 
+                          ${orderArr[13]}, 
+                          ${orderArr[15]},`;
+        concreteOrderBlock.appendChild(el);
+
+        const deleteButton = document.createElement("button");
+        deleteButton.classList.add("button");
+        deleteButton.textContent = `Видалити`;
+        concreteOrderBlock.appendChild(deleteButton);
+
+        deleteButton.addEventListener("click", () => {
+          orders.splice(i, 1);
+          localStorage.setItem("orders", JSON.stringify(orders));
+          document.getElementById("order").innerHTML = "";
+          e.target.parentNode.removeChild(e.target);
+          showMyOrders();
+        });
+      });
+    });
+  });
+}
+
+showMyOrders();
+
+console.log(orders);
